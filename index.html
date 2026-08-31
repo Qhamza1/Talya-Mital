@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طاليا ميتال — مطابخ وديكورات ألومنيوم فاخرة</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --black: #0A0A0A;
+    --black-soft: #1A1A1A;
+    --red: #E31B23;
+    --red-deep: #B9141A;
+    --white: #FFFFFF;
+    --gray: #F5F5F5;
+    --gray-warm: #EFEFEC;
+    --line: rgba(17,17,17,0.09);
+    --line-light: rgba(255,255,255,0.14);
+    --radius: 20px;
+    --radius-lg: 28px;
+    --ease: cubic-bezier(.22,1,.36,1);
+
+    /* متغبرات الوضع النهاري القياسي */
+    --bg-main: var(--white);
+    --text-main: var(--black);
+    --subtext-main: #454545;
+    --nav-bg: rgba(255,255,255,0.75);
+    --card-bg: var(--gray);
+    --section-pull-bg: var(--gray-warm);
+    --card-shadow: rgba(0,0,0,0.25);
+  }
+
+  /* متغيّرات الوضع الليلي */
+  [data-theme="dark"] {
+    --bg-main: #0F0F0F;
+    --text-main: #F5F5F5;
+    --subtext-main: #B0B0B0;
+    --nav-bg: rgba(15,15,15,0.85);
+    --line: rgba(255,255,255,0.1);
+    --card-bg: #181818;
+    --section-pull-bg: #141414;
+    --card-shadow: rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    font-family: 'Cairo', 'Readex Pro', sans-serif;
+    color: var(--text-main);
+    background: var(--bg-main);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ text-decoration:none; color:inherit; }
+  ul{ list-style:none; }
+  button{ font-family:inherit; }
+
+  ::selection{ background: var(--red); color:#fff; }
+
+  body::before{
+    content:"";
+    position: fixed; inset:0; z-index: 9999; pointer-events:none;
+    opacity: 0.025; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .container{ max-width: 1280px; margin:0 auto; padding: 0 40px; }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  .reveal{ opacity:0; transform: translateY(28px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+  .reveal-scale{ opacity:0; transform: scale(0.96); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+  .reveal-scale.in{ opacity:1; transform: scale(1); }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    position: sticky; top:0; z-index: 999;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border-bottom: 1px solid var(--line);
+    transition: background .3s ease, padding .3s ease, border-color 0.4s ease;
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 22px 40px; max-width:1280px; margin:0 auto;
+    transition: padding .3s ease;
+  }
+  .logo-mark{ font-family:'Readex Pro',sans-serif; font-weight: 700; font-size: 21px; letter-spacing: 3px; }
+  .logo-mark span.T{ color: var(--text-main); -webkit-text-stroke: 1.4px var(--text-main); }
+  .logo-mark span.A{ color: var(--red); }
+  .nav-links{ display:flex; align-items:center; gap:32px; font-weight:500; font-size:14.5px; }
+  .nav-links a{
+    position:relative; padding-bottom:4px; transition: color .3s ease; letter-spacing:.2px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; right:0; bottom:0; width:0; height:1px; background: var(--red);
+    transition: width .35s var(--ease);
+  }
+  .nav-links a:hover{ color: var(--red); }
+  .nav-links a:hover::after{ width:100%; }
+
+  /* ---------- THEME TOGGLE BUTTON ---------- */
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  .theme-toggle:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: scale(1.08);
+  }
+
+  /* ---------- MARQUEE TICKER ---------- */
+  .ticker{
+    background: var(--black); color:#fff; overflow:hidden;
+    padding: 13px 0; white-space:nowrap; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .ticker-track{
+    display:inline-flex; gap:0; animation: scroll-rtl 32s linear infinite;
+  }
+  .ticker-track span{
+    display:inline-flex; align-items:center; gap:14px;
+    font-size:12.5px; font-weight:600; letter-spacing:2px; padding: 0 28px;
+    text-transform: uppercase;
+  }
+  .ticker-track span .sep{ color: var(--red); font-size:8px; }
+  @keyframes scroll-rtl{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(50%); }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: var(--bg-main);
+    padding: 78px 40px 0;
+    position: relative;
+    transition: background-color 0.4s ease;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items:center;
+    max-width:1280px; margin: 0 auto; padding-bottom: 70px;
+    grid-template-areas: "copy visual";
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-weight:700; font-size:12.5px; letter-spacing: 2px; text-transform:uppercase;
+    color: var(--red); margin-bottom: 28px;
+  }
+  .hero-eyebrow::before{ content:""; width: 34px; height:1.4px; background: var(--red); display:inline-block; }
+  .hero h1{
+    font-family:'Readex Pro', sans-serif;
+    font-size: clamp(38px, 4.8vw, 66px);
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.22;
+    margin-bottom: 26px;
+  }
+  .hero h1 em{
+    font-style:normal; color: var(--red);
+    position: relative;
+  }
+  .hero p.sub{
+    font-size: 17.5px; font-weight: 400; color: var(--subtext-main);
+    max-width: 460px; margin-bottom: 40px;
+  }
+  .hero-ctas{ display:flex; align-items:center; gap: 26px; flex-wrap:wrap; }
+
+  .btn{
+    position:relative; overflow:hidden;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    padding: 19px 40px; border-radius:999px; font-weight:700; font-size:15.5px;
+    cursor:pointer; border: 1.5px solid transparent; letter-spacing:.2px;
+    transition: transform .35s var(--ease), box-shadow .35s ease, color .3s ease, border-color .3s ease;
+  }
+  .btn span{ position:relative; z-index:2; display:inline-flex; align-items:center; gap:8px; }
+  .btn svg{ transition: transform .35s var(--ease); }
+  .btn-primary{
+    background: var(--red); color:#fff;
+    box-shadow: 0 16px 32px rgba(227,27,35,0.28);
+  }
+  .btn-primary::before{
+    content:""; position:absolute; inset:0; background: var(--black);
+    transform: translateY(101%); transition: transform .4s var(--ease); z-index:1;
+  }
+  .btn-primary:hover::before{ transform: translateY(0); }
+  .btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 20px 36px rgba(0,0,0,0.3); }
+  .btn-primary:hover svg{ transform: translateX(-4px); }
+
+  .btn-text{
+    background: transparent; color: var(--text-main); padding: 10px 0; border-radius:0;
+    border-bottom: 1.5px solid var(--text-main);
+  }
+  .btn-text:hover{ color: var(--red); border-color: var(--red); transform: translateX(-4px); }
+
+  .hero-stats{
+    display:flex; gap: 48px; margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--line);
+    max-width: 500px;
+  }
+  .hero-stat b{
+    display:block; font-family:'Readex Pro',sans-serif; font-size: 30px; font-weight:600; margin-bottom:4px;
+  }
+  .hero-stat span{ font-size:12.5px; color:var(--subtext-main); font-weight:600; letter-spacing:.3px; }
+
+  .hero-visual{ position:relative; grid-area: visual; }
+  .hero-copy{ grid-area: copy; }
+
+  .hero-image-wrap{
+    border-radius: var(--radius-lg); overflow:hidden; position:relative;
+    box-shadow: 0 40px 80px -20px var(--card-shadow);
+  }
+  .hero-image-wrap img{ width:100%; height: 640px; object-fit:cover; transition: transform 1.2s var(--ease); }
+  .hero-image-wrap:hover img{ transform: scale(1.05); }
+  .hero-badge{
+    position:absolute; top: -22px; left: -22px;
+    background:var(--bg-main); border-radius: 50%;
+    width: 118px; height:118px; display:flex; align-items:center; justify-content:center; text-align:center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.16);
+    font-size: 11px; font-weight:800; letter-spacing:.5px; line-height:1.4;
+    animation: spin-slow 18s linear infinite;
+  }
+  .hero-badge .core{
+    animation: spin-slow-rev 18s linear infinite;
+    width:56px; height:56px; border-radius:50%; background: var(--red); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  @keyframes spin-slow{ from{ transform: rotate(0); } to{ transform: rotate(360deg); } }
+  @keyframes spin-slow-rev{ from{ transform: rotate(0); } to{ transform: rotate(-360deg); } }
+  .hero-tag{
+    position:absolute; bottom: 26px; right: 26px;
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(8px);
+    color:#fff; padding: 16px 22px; border-radius: 16px;
+    font-weight:700; font-size: 13.5px; display:flex; align-items:center; gap:10px;
+  }
+  .hero-tag .dot{ width:8px; height:8px; border-radius:50%; background: var(--red); box-shadow: 0 0 0 4px rgba(227,27,35,0.25); }
+
+  /* ---------- SECTION HEAD ---------- */
+  .section-head{ max-width: 640px; margin: 0 0 60px; }
+  .section-head.center{ margin: 0 auto 60px; text-align:center; }
+  .section-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-weight:700; font-size:12.5px; letter-spacing:2px; text-transform:uppercase; color: var(--red);
+    margin-bottom:18px;
+  }
+  .section-eyebrow::before{ content:""; width:34px; height:1.4px; background: var(--red); display:inline-block; }
+  .section-head.center .section-eyebrow::before{ display:none; }
+  .section-head h2{
+    font-family:'Readex Pro',sans-serif;
+    font-size: clamp(28px, 3.6vw, 44px); font-weight:600; letter-spacing:-0.5px; line-height:1.3; margin-bottom:16px;
+  }
+  .section-head p{ font-size:16px; font-weight:400; color:var(--subtext-main); }
+
+  /* ---------- EXPERTISE ---------- */
+  .section-expertise{ background: var(--black); color:#fff; padding: 130px 40px; position:relative; }
+  .exp-top{ display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap;
+    max-width:1280px; margin: 0 auto 70px; }
+  .exp-top .section-head{ margin:0; max-width:520px; }
+  .exp-top .section-head p{ color: rgba(255,255,255,0.55); }
+  .exp-top .section-head h2{ color:#fff; }
+  .exp-top .section-eyebrow{ color: var(--red); }
+
+  .expertise-grid{
+    display:grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.1);
+    max-width:1280px; margin:0 auto; border-radius: var(--radius-lg); overflow:hidden;
+  }
+  .exp-card{
+    background: var(--black-soft); padding: 48px 38px; transition: background .4s ease;
+    position:relative;
+  }
+  .exp-card:hover{ background: #232323; }
+  .exp-num{
+    font-family:'Readex Pro',sans-serif; font-size:13px; font-weight:600; color: var(--red);
+    letter-spacing:1px; margin-bottom: 30px; display:block;
+  }
+  .exp-card h3{ font-size:21px; font-weight:800; margin-bottom:14px; }
+  .exp-card p{ font-size:15px; font-weight:400; color: rgba(255,255,255,0.6); }
+  .exp-card .exp-arrow{
+    margin-top:26px; width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,0.2);
+    display:flex; align-items:center; justify-content:center; transition: all .35s var(--ease);
+  }
+  .exp-card:hover .exp-arrow{ background: var(--red); border-color: var(--red); transform: rotate(-45deg); }
+
+  /* ---------- KITCHEN SOLUTIONS ---------- */
+  .section-solutions{ background: var(--bg-main); padding: 130px 40px; transition: background-color 0.4s ease; }
+  .sol-header{ display:flex; justify-content:space-between; align-items:flex-end; gap:30px; flex-wrap:wrap;
+    max-width:1280px; margin:0 auto 60px; }
+  .solutions-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 30px;
+    max-width:1280px; margin:0 auto;
+  }
+  .sol-card{
+    border-radius: var(--radius-lg); overflow:hidden; position:relative;
+    box-shadow: 0 30px 60px -20px var(--card-shadow);
+    min-height: 520px; display:flex; flex-direction:column; justify-content:flex-end;
+  }
+  .sol-card img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
+    transition: transform 1.1s var(--ease), filter .5s ease;
+    filter: saturate(0.95);
+  }
+  .sol-card:hover img{ transform: scale(1.07); }
+  .sol-card::after{
+    content:""; position:absolute; inset:0; z-index:2;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 8%, rgba(10,10,10,0.25) 55%, rgba(10,10,10,0.05) 80%);
+  }
+  .sol-content{ position:relative; z-index:3; padding: 42px; color:#fff; }
+  .sol-content .sol-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,0.14); backdrop-filter: blur(6px);
+    padding:8px 18px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:18px;
+    letter-spacing: .5px; text-transform:uppercase;
+  }
+  .sol-content .sol-tag .dot{ width:6px; height:6px; border-radius:50%; background: var(--red); }
+  .sol-content h3{ font-family:'Readex Pro',sans-serif; font-size:27px; font-weight:600; margin-bottom:12px; }
+  .sol-content p{ font-size:15px; font-weight:400; opacity:0.85; max-width: 380px; }
+  .sol-content .sol-more{
+    display:inline-flex; align-items:center; gap:8px; margin-top:22px; font-weight:700; font-size:13.5px;
+    padding-bottom:4px; border-bottom: 1px solid rgba(255,255,255,0.4); transition: all .3s ease;
+  }
+  .sol-card:hover .sol-more{ border-color:#fff; gap:12px; }
+
+  /* ---------- QUOTE / PULL STATEMENT ---------- */
+  .section-pull{
+    background: var(--section-pull-bg); padding: 110px 40px; text-align:center; position:relative;
+    transition: background-color 0.4s ease;
+  }
+  .pull-mark{ font-family:'Readex Pro',sans-serif; font-size:70px; color: var(--red); line-height:0.5; opacity:0.5; margin-bottom: 10px; }
+  .pull-text{
+    font-family:'Readex Pro',sans-serif; font-weight:500; font-size: clamp(22px,3.2vw,36px);
+    max-width: 880px; margin: 0 auto 26px; line-height:1.6; letter-spacing:-0.3px;
+  }
+  .pull-author{ font-weight:700; font-size:14px; color:var(--subtext-main); letter-spacing:.4px; }
+
+  /* ---------- GALLERY ---------- */
+  .section-gallery{ background: var(--bg-main); padding: 130px 40px; transition: background-color 0.4s ease; }
+  .gallery-grid{
+    display:grid; grid-template-columns: repeat(4,1fr); grid-auto-rows: 210px; gap: 22px;
+    max-width:1280px; margin:0 auto;
+  }
+  .gallery-item{
+    position:relative; border-radius: var(--radius); overflow:hidden;
+    box-shadow: 0 20px 40px -14px var(--card-shadow);
+  }
+  .gallery-item img{
+    width:100%; height:100%; object-fit:cover; transition: transform .8s var(--ease), filter .5s ease;
+  }
+  .gallery-item:hover img{ transform: scale(1.08); }
+  .gallery-item::after{
+    content:""; position:absolute; inset:0; background: linear-gradient(to top, rgba(10,10,10,0.55), transparent 45%);
+    opacity:0; transition: opacity .4s ease;
+  }
+  .gallery-item:hover::after{ opacity:1; }
+  .gallery-item .g-label{
+    position:absolute; bottom:18px; right:18px; color:#fff; font-weight:700; font-size:13px;
+    opacity:0; transform: translateY(8px); transition: all .4s var(--ease); z-index:2;
+  }
+  .gallery-item:hover .g-label{ opacity:1; transform: translateY(0); }
+  .g-tall{ grid-row: span 2; }
+  .g-wide{ grid-column: span 2; }
+
+  /* صورة الشخص: تظهر كاملة بدون قص */
+  .gallery-item.g-portrait{
+    background: var(--black-soft);
+  }
+  .gallery-item.g-portrait img{
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
+  .gallery-item.g-portrait:hover img{ transform: scale(1.03); }
+
+  /* ---------- QUOTE FORM ---------- */
+  .section-quote{ background: var(--black); color:#fff; padding: 130px 40px; position:relative; overflow:hidden; }
+  .section-quote::before{
+    content:""; position:absolute; top:-200px; left:-200px; width:500px; height:500px; border-radius:50%;
+    background: radial-gradient(circle, rgba(227,27,35,0.18), transparent 70%); pointer-events:none;
+  }
+  .quote-grid{
+    display:grid; grid-template-columns: 0.85fr 1.15fr; gap:70px; align-items:center;
+    max-width:1280px; margin:0 auto; position:relative; z-index:2;
+  }
+  .quote-side .section-eyebrow{ color: var(--red); }
+  .quote-side h2{
+    font-family:'Readex Pro',sans-serif; font-size: clamp(28px,3.6vw,40px); font-weight:600; margin-bottom:20px; color:#fff;
+  }
+  .quote-side p{ font-size:16px; font-weight:400; color: rgba(255,255,255,0.6); margin-bottom:14px; max-width:440px; }
+  .quote-mini-list{ margin-top:32px; display:flex; flex-direction:column; gap:18px; }
+  .quote-mini-list li{ display:flex; align-items:center; gap:16px; font-weight:600; font-size:15px; }
+  .quote-mini-list .dot{
+    width:40px; height:40px; border-radius:50%; background: rgba(255,255,255,0.06);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .quote-grid-solo{ grid-template-columns: 1fr; text-align:center; justify-items:center; }
+  .quote-grid-solo .quote-side .section-eyebrow{ justify-content:center; }
+  .quote-grid-solo .quote-side p{ max-width: 560px; }
+  .quote-grid-solo .quote-mini-list{ align-items:center; }
+  .quote-grid-solo .quote-mini-list li{ justify-content:center; }
+
+  .quote-card{
+    background: var(--bg-main); color: var(--text-main); border-radius: var(--radius-lg); padding: 50px;
+    box-shadow: 0 40px 90px -20px rgba(0,0,0,0.5);
+  }
+  .quote-card-head{ font-family:'Readex Pro',sans-serif; font-size:22px; font-weight:600; margin-bottom: 30px; }
+  .form-group{ margin-bottom:24px; }
+  .form-group label{ display:block; font-weight:700; font-size:13.5px; margin-bottom:10px; letter-spacing:.2px; }
+  .form-group input, .form-group select{
+    width:100%; border: none; border-bottom: 1.6px solid var(--line); background: transparent; border-radius:0;
+    padding: 12px 4px; font-family:'Cairo', sans-serif; font-size:15.5px; color: var(--text-main);
+    outline:none; transition: border-color .3s ease; appearance:none;
+  }
+  .form-group select{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23111' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: left 4px center; padding-left: 22px;
+  }
+  .form-group input:focus, .form-group select:focus{ border-color: var(--red); }
+  .form-submit{
+    position:relative; overflow:hidden;
+    width:100%; background: var(--text-main); color:var(--bg-main); border:none; padding:19px; border-radius:999px;
+    font-family:'Cairo', sans-serif; font-weight:800; font-size:16px; cursor:pointer; margin-top: 10px;
+    transition: transform .35s var(--ease), box-shadow .35s ease;
+  }
+  .form-submit span{ position:relative; z-index:2; }
+  .form-submit::before{
+    content:""; position:absolute; inset:0; background: var(--red);
+    transform: translateX(101%); transition: transform .4s var(--ease); z-index:1;
+  }
+  .form-submit:hover::before{ transform: translateX(0); }
+  .form-submit:hover{ transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0,0,0,0.25); }
+  .form-note{ text-align:center; font-size:12px; margin-top:18px; opacity:.55; font-weight:600; }
+
+  /* ---------- CTA STRIP ---------- */
+  .cta-strip{
+    background: var(--red); padding: 90px 40px; text-align:center; position:relative; overflow:hidden;
+  }
+  .cta-strip h2{
+    font-family:'Readex Pro',sans-serif; color:#fff; font-size: clamp(26px,4vw,42px); font-weight:600;
+    margin-bottom: 30px; letter-spacing:-0.5px; max-width: 700px; margin-left:auto; margin-right:auto;
+  }
+  .cta-strip .btn-white{
+    background:#fff; color: var(--black); box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+  }
+  .cta-strip .btn-white::before{ background: var(--black); }
+  .cta-strip .btn-white:hover{ color:#fff; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background: var(--black); color:#fff; padding: 100px 40px 0; position:relative; overflow:hidden; }
+  .footer-inner{
+    max-width:1280px; margin:0 auto; display:grid; grid-template-columns: 1.2fr 0.8fr 0.8fr; gap:60px;
+    padding-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand{ font-family:'Readex Pro',sans-serif; font-size:24px; font-weight:700; margin-bottom:20px; letter-spacing:2px; }
+  .footer-brand .T{ color:#fff; -webkit-text-stroke: 1.4px #fff; }
+  .footer-brand .A{ color: var(--red); }
+  .footer-inner p{ font-size:14.5px; opacity:0.55; max-width:340px; font-weight:400; }
+  .footer-col h4{ font-size:13px; font-weight:700; margin-bottom:22px; color: var(--red); letter-spacing:1px; text-transform:uppercase; }
+  .footer-col p, .footer-col a{ display:block; font-size:14.5px; opacity:0.65; margin-bottom:13px; font-weight:400; transition: opacity .3s ease, transform .3s ease; }
+  .footer-col a:hover{ opacity:1; transform: translateX(-4px); color: var(--red); }
+  .footer-social{ display:flex; gap:12px; margin-top:22px; }
+  .footer-social a{
+    width:42px; height:42px; border-radius:50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    display:flex; align-items:center; justify-content:center;
+    transition: background .3s ease, transform .3s ease, border-color .3s ease;
+  }
+  .footer-social a:hover{ background: var(--red); border-color: var(--red); transform: translateY(-4px); }
+
+  .footer-giant{
+    text-align:center; padding: 50px 0 30px;
+    font-family:'Readex Pro',sans-serif; font-weight:700;
+    font-size: clamp(52px, 12vw, 168px); letter-spacing: -2px; line-height:1;
+    color: transparent; -webkit-text-stroke: 1.4px rgba(255,255,255,0.14);
+    user-select:none;
+  }
+  .footer-bottom{
+    max-width:1280px; margin: 0 auto; padding: 26px 0 30px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size:13px; opacity:0.5; font-weight:500;
+  }
+
+  .developer-rights {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: #888;
+  }
+  .social-links{ display:flex; gap:15px; }
+  .social-links a{ color:#fff; font-size:20px; transition: color .3s ease; }
+  .social-links a.whatsapp:hover{ color:#25D366; }
+  .social-links a.instagram:hover{ color:#E1306C; }
+
+  /* ---------- SPLASH / INTRO ---------- */
+  html.splash-lock, html.splash-lock body{ overflow:hidden; height:100%; }
+  .splash{
+    position: fixed; inset:0; z-index: 100000;
+    background: #0A0A0A;
+    display:flex; align-items:center; justify-content:center;
+    transition: opacity 1.1s var(--ease), visibility 1.1s var(--ease);
+  }
+  .splash::before{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 50% 50%, rgba(227,27,35,0.16), transparent 62%);
+    opacity:0; animation: splashGlow 4s ease forwards;
+  }
+  .splash.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .splash-inner{ position:relative; display:flex; align-items:center; justify-content:center; }
+  .splash-logo{
+    width:min(52vw, 260px); aspect-ratio: 1 / 1; object-fit: cover; object-position:center;
+    border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14);
+    opacity:0; transform: scale(0.82);
+    animation: splashIn 4s var(--ease) forwards;
+    filter: drop-shadow(0 10px 50px rgba(227,27,35,0.28));
+  }
+  .splash-ring{
+    position:absolute; width:min(64vw, 320px); height:min(64vw, 320px);
+    border-radius:50%; border:1px solid rgba(227,27,35,0.35);
+    opacity:0; animation: splashRing 4s var(--ease) forwards;
+  }
+  @keyframes splashIn{
+    0%{ opacity:0; transform: scale(0.82); }
+    28%{ opacity:1; transform: scale(1); }
+    82%{ opacity:1; transform: scale(1); }
+    100%{ opacity:0; transform: scale(1.04); }
+  }
+  @keyframes splashRing{
+    0%{ opacity:0; transform: scale(0.7); }
+    30%{ opacity:1; transform: scale(1); }
+    82%{ opacity:0.7; transform: scale(1.12); }
+    100%{ opacity:0; transform: scale(1.3); }
+  }
+  @keyframes splashGlow{
+    0%{ opacity:0; } 30%{ opacity:1; } 80%{ opacity:1; } 100%{ opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .splash-logo, .splash-ring, .splash::before{ animation: none; opacity:1; }
+  }
+
+  /* ---------- DRAG SLIDERS ---------- */
+  .slider-section{ background:var(--bg-main); padding: 130px 40px; transition: background-color 0.4s ease; }
+  .slider-section.on-dark{ background: var(--black); color:#fff; }
+  .slider-section.on-dark .section-head p{ color: rgba(255,255,255,0.55); }
+  .slider-wrap{ max-width:1280px; margin:0 auto; }
+  .slider{
+    position:relative; border-radius: var(--radius-lg); overflow:hidden;
+    cursor: grab; -webkit-user-select:none; user-select:none;
+    box-shadow: 0 30px 60px -20px var(--card-shadow);
+    touch-action: pan-y;
+    direction: ltr;
+  }
+  .slider.dragging{ cursor: grabbing; }
+  .slider-track{ display:flex; will-change: transform; direction: ltr; }
+  .slider-track.snap{ transition: transform .7s var(--ease); }
+  .slider-slide{
+    position:relative; flex: 0 0 100%; height: 480px;
+  }
+  .slider-slide img{
+    width:100%; height:100%; object-fit:cover; pointer-events:none;
+    -webkit-user-drag:none;
+  }
+  .slider-slide::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.1) 42%, transparent 65%);
+  }
+
+  .slide-label{
+    position:absolute; right:32px; bottom:26px; z-index:2; color:#fff;
+    display:flex; flex-direction:column; align-items:flex-end; text-align:right; gap:4px;
+  }
+  .label-en{
+    font-family:'Readex Pro','Montserrat',sans-serif;
+    font-size:17px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:#d4af37;
+  }
+  .label-ar{
+    font-family:'Cairo',sans-serif;
+    font-size:13.5px; font-weight:600; color:#eee;
+  }
+
+  .slider-nav{
+    display:flex; align-items:center; justify-content:center; gap:22px;
+    margin-top: 28px;
+  }
+  .slider-arrow{
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--line);
+    background:var(--bg-main); color:var(--text-main); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition: all .35s var(--ease); flex-shrink:0;
+  }
+  .on-dark .slider-arrow{ background: var(--black-soft); border-color: rgba(255,255,255,0.16); color:#fff; }
+  .slider-arrow:hover{ background: var(--red); border-color: var(--red); color:#fff; }
+  .slider-arrow svg{ transition: transform .3s ease; }
+  .slider-dots{ display:flex; align-items:center; gap:9px; }
+  .slider-dots button{
+    width:9px; height:9px; border-radius:50%; border:none; padding:0;
+    background: rgba(127,127,127,0.3); cursor:pointer; transition: all .35s var(--ease);
+  }
+  .on-dark .slider-dots button{ background: rgba(255,255,255,0.22); }
+  .slider-dots button.active{ width:26px; border-radius:6px; background: var(--red); }
+  .slider-hint{
+    text-align:center; font-size:12.5px; font-weight:600; color:var(--subtext-main); letter-spacing:.3px;
+    margin-top:14px; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .on-dark .slider-hint{ color: rgba(255,255,255,0.4); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; grid-template-areas: "visual" "copy"; }
+    .hero-image-wrap img{ height: 420px; }
+    .hero-badge{ display:none; }
+    .exp-top{ flex-direction:column; align-items:flex-start; }
+    .expertise-grid{ grid-template-columns:1fr; }
+    .solutions-grid{ grid-template-columns:1fr; }
+    .sol-header{ flex-direction:column; align-items:flex-start; }
+    .gallery-grid{ grid-template-columns: repeat(2,1fr); grid-auto-rows: 190px; }
+    .g-wide{ grid-column: span 2; }
+    .quote-grid{ grid-template-columns:1fr; }
+    .footer-inner{ grid-template-columns:1fr; gap:40px; }
+    .nav-links{ display:none; }
+    .hero-stats{ gap:32px; }
+  }
+
+  @media (max-width: 640px){
+    .container{ padding:0 22px; }
+    .nav-inner{ padding: 16px 22px; }
+    .hero{ padding: 40px 22px 0; }
+    .hero h1{ font-size: 32px; }
+    .hero p.sub{ font-size:15.5px; }
+    .btn{ padding:16px 30px; font-size:14.5px; width:100%; }
+    .hero-ctas{ flex-direction:column; align-items:stretch; }
+    .btn-text{ text-align:center; }
+    .hero-image-wrap img{ height: 300px; }
+    .hero-tag{ bottom:16px; right:16px; padding:12px 16px; font-size:12px; }
+    .hero-stats{ flex-wrap:wrap; gap: 24px; }
+    .section-expertise, .section-solutions, .section-gallery, .section-quote, .section-pull, .cta-strip{ padding: 80px 22px; }
+    .gallery-grid{ grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; gap:12px; }
+    .sol-card{ min-height: 380px; }
+    .quote-card{ padding: 32px 26px; }
+    footer{ padding: 70px 22px 0; }
+    .footer-giant{ font-size: 46px; }
+    .pull-text{ font-size:22px; }
+    .slider-slide{ height: 320px; }
+    .slider-section{ padding: 80px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ SPLASH / INTRO ============ -->
+  <div class="splash" id="splash">
+    <div class="splash-inner">
+      <div class="splash-ring"></div>
+      <img src="splash-logo-circle.jpg" alt="طاليا ميتال" class="splash-logo">
+    </div>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo-mark"><span class="T">T</span><span class="A">A</span>LYA-MITAL</div>
+      <div class="nav-links">
+        <a href="#expertise">لماذا نتميز</a>
+        <a href="#materials">الخامات</a>
+        <a href="#solutions">حلول المطابخ</a>
+        <a href="#gallery">معرض الأعمال</a>
+        <a href="#other-works">أعمالنا الأخرى</a>
+        <a href="#quote">تواصل معنا</a>
+      </div>
+      <!-- زر التبديل بين الوضع الليلي والنهاري -->
+      <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي/النهاري">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ TICKER ============ -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>مطابخ ألومنيوم فاخرة <span class="sep">●</span></span>
+      <span>تصميم مخصص لمساحتك <span class="sep">●</span></span>
+      <span>ضمان على التصنيع والتركيب <span class="sep">●</span></span>
+      <span>خامات بريميوم مستوردة <span class="sep">●</span></span>
+      <span>مطابخ ألومنيوم فاخرة <span class="sep">●</span></span>
+      <span>تصميم مخصص لمساحتك <span class="sep">●</span></span>
+      <span>ضمان على التصنيع والتركيب <span class="sep">●</span></span>
+      <span>خامات بريميوم مستوردة <span class="sep">●</span></span>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div class="hero-visual reveal-scale">
+        <div class="hero-image-wrap">
+          <img src="logo.jpg" alt="مطبخ ألومنيوم فاخر">
+          <div class="hero-tag"><span class="dot"></span> تصنيع وتركيب دقيق</div>
+        </div>
+        <div class="hero-badge">
+          <div class="core">✦</div>
+        </div>
+      </div>
+      <div class="hero-copy reveal">
+        <span class="hero-eyebrow">مطابخ • ألومنيوم • ديكورات فاخرة</span>
+        <h1>طاليا ميتال.. حيث يلتقي<br><em>الفن</em> بالمعادن</h1>
+        <p class="sub">مطابخ ألومنيوم فاخرة، وديكورات مبتكرة تعيد تعريف مساحتك بلمسة أنيقة ودقة تنفيذ استثنائية.</p>
+        <div class="hero-ctas">
+          <a href="#gallery" class="btn btn-primary">شاهد أعمالنا</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><b>+7</b><span>عاماً من الخبرة</span></div>
+          <div class="hero-stat"><b>+40</b><span>مشروع منجز</span></div>
+          <div class="hero-stat"><b>%99</b><span>رضا العملاء</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ EXPERTISE ============ -->
+  <section class="section-expertise" id="expertise">
+    <div class="exp-top reveal">
+      <div class="section-head">
+        <span class="section-eyebrow">لماذا نتميز؟</span>
+        <h2>حرفية تصنع الفرق في كل تفصيلة</h2>
+        <p>نجمع بين الدقة والخامات الفاخرة والتصميم المخصص في كل مشروع نُنفذه.</p>
+      </div>
+    </div>
+    <div class="expertise-grid reveal">
+      <div class="exp-card">
+        <span class="exp-num">01</span>
+        <h3>دقة التنفيذ</h3>
+        <p>نلتزم بأعلى معايير الجودة في كل قطعة ألومنيوم، من القياس وحتى التركيب النهائي.</p>
+        <div class="exp-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="exp-card">
+        <span class="exp-num">02</span>
+        <h3>مواد بريميوم</h3>
+        <p>نستخدم أجود خامات الألومنيوم والزجاج المقاوم لضمان متانة تدوم لسنوات طويلة.</p>
+        <div class="exp-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="exp-card">
+        <span class="exp-num">03</span>
+        <h3>تصميم مخصص</h3>
+        <p>مطابخ تُفصّل خصيصاً لتناسب ذوقك ومساحتك، بلا قوالب جاهزة أو حلول عامة.</p>
+        <div class="exp-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MATERIALS SLIDER ============ -->
+  <section class="slider-section" id="materials">
+    <div class="section-head center reveal">
+      <span class="section-eyebrow" style="justify-content:center;">جودة لا تُجارى</span>
+      <h2>الخامات التي نعمل بها</h2>
+      <p>نختار كل خامة بعناية فائقة، من الألومنيوم إلى الزجاج والاكسسوارات، لنضمن مطبخاً يدوم ويليق بذوقك.</p>
+    </div>
+    <div class="slider-wrap reveal">
+      <div class="slider" data-slider>
+        <div class="slider-track" data-track>
+          <div class="slider-slide">
+            <img src="mf1.jpg" alt="مفصلات Just top" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">Just Top</strong>
+              <small class="label-ar">ضمان 10 سنين ضد المياه</small>
+            </span>
+          </div>
+          <div class="slider-slide">
+            <img src="mf3.jpg" alt="زجاج مقاوم" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">Just Top appetizers</strong>
+              <small class="label-ar">مطبقيه و مفصله مصنوعة من الاستانلس 
+             <pre class="label-ar">مقاومه للصدأ</pre> </small>
+            </span>
+          </div>
+          <div class="slider-slide">
+            <img src="mf2.jpg" alt="اكسسوارات فاخرة" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">Just Top appetizers</strong>
+              <small class="label-ar">  مطبقيه مصنوعة من الاستانلس مقاومه للصدأ</small>
+            </span>
+          </div>
+          <div class="slider-slide">
+            <img src="mf4.jpg" alt="طلاء مطفأ" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">ordinary dish</strong>
+              <small class="label-ar">مطبقيه عاديه مقاومه للصدأ</small>
+            </span>
+          </div>
+          <div class="slider-slide">
+            <img src="ch.jpg" alt="مفصلات هيدروليك" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">Soft-Close Drawer Slides </strong>
+              <small class="label-ar"> سحابات  اوريجنال جاست توب بمكبس هيدروليكي </small>
+            </span>
+          </div>
+          <div class="slider-slide">
+            <img src="mf6.jpg" alt="مفصلات هيدروليك" draggable="false">
+            <span class="slide-label">
+              <strong class="label-en">Soft-Close Drawer Slides </strong>
+              <small class="label-ar"> سحابات  اوريجنال جاست توب بمكبس هيدروليكي </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="slider-nav">
+        <button class="slider-arrow" data-prev aria-label="السابق">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="slider-dots" data-dots></div>
+        <button class="slider-arrow" data-next aria-label="التالي">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <p class="slider-hint">اسحب لمشاهدة المزيد من الخامات ⟷</p>
+    </div>
+  </section>
+
+  <!-- ============ KITCHEN SOLUTIONS ============ -->
+  <section class="section-solutions" id="solutions">
+    <div class="sol-header reveal">
+      <div class="section-head">
+        <span class="section-eyebrow">حلول متكاملة</span>
+        <h2>حلول المطابخ المتكاملة</h2>
+        <p>من التخزين الذكي إلى اللمسات الفاخرة، نصمم مطبخك بالكامل بعناية فائقة.</p>
+      </div>
+    </div>
+    <div class="solutions-grid">
+      <div class="sol-card reveal">
+        <img src="dorg.jpg" alt="وحدات تخزين ذكية">
+        <div class="sol-content">
+          <span class="sol-tag"><span class="dot"></span> تخزين ذكي</span>
+          <h3>وحدات التخزين الذكية</h3>
+          <p>أدراج بتصميم هندسي مريح لسهولة الوصول والاستخدام، تنظم مساحتك بأناقة وكفاءة.</p>
+        </div>
+      </div>
+      <div class="sol-card reveal">
+        <img src="s1.jpg" alt="مطبخ أسود فاخر">
+        <div class="sol-content">
+          <span class="sol-tag"><span class="dot"></span> تصميم فاخر</span>
+          <h3>المطابخ العصرية</h3>
+          <p>لمسات نهائية أنيقة لعشاق الفخامة والتصميم العصري الجريء.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PULL QUOTE ============ -->
+  <section class="section-pull">
+    <div class="pull-mark">"</div>
+    <p class="pull-text reveal">كل مشروع نُنفذه هو بصمة دائمة داخل منزل عميلنا — نتعامل مع المعدن وكأنه قماش، ومع المساحة وكأنها لوحة تنتظر تفاصيلها الأخيرة.</p>
+    <p class="pull-author">— طاليا ميتال</p>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="section-gallery" id="gallery">
+    <div class="section-head center reveal">
+      <span class="section-eyebrow" style="justify-content:center;">معرض أعمالنا</span>
+      <h2>إبداعات طاليا ميتال في منازل عملائنا</h2>
+      <p>كل مشروع يُنجز بإتقان ليعكس هويتك ويليق بمساحتك.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item g-tall">
+        <img src="1.jpg" alt="مشروع مطبخ 1">
+        <span class="g-label">مطبخ عصري </span>
+      </div>
+      <div class="gallery-item">
+        <img src="2.jpg" alt="مشروع مطبخ 2">
+        <span class="g-label">تفاصيل دقيقة</span>
+      </div>
+      <div class="gallery-item g-wide">
+        <img src="3.jpg" alt="مشروع مطبخ 3">
+        <span class="g-label">مطبخ مفتوح فاخر</span>
+      </div>
+      <div class="gallery-item">
+        <img src="4.jpg" alt="مشروع مطبخ 4">
+        <span class="g-label">لمسات معدنية</span>
+      </div>
+      <div class="gallery-item g-tall">
+        <img src="5.jpg" alt="مشروع مطبخ 5">
+        <span class="g-label">تصميم مخصص</span>
+      </div>
+      <div class="gallery-item g-wide">
+        <img src="6.jpg" alt="مشروع مطبخ 6">
+        <span class="g-label">مطبخ عائلي أنيق</span>
+      </div>
+      <div class="gallery-item g-portrait">
+        <img src="sayed2.jpg" alt="مشروع مطبخ 7">
+        <span class="g-label">لا دا انا</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTHER WORKS SLIDER ============ -->
+  <section class="slider-section on-dark" id="other-works">
+    <div class="section-head center reveal">
+      <span class="section-eyebrow" style="justify-content:center;">تنوّع في الحِرفة</span>
+      <h2>أعمالنا الأخرى</h2>
+      <p>لا نقتصر على المطابخ فقط، بل نمتد إلى ديكورات وأعمال ألومنيوم متنوعة بنفس مستوى الدقة والفخامة.</p>
+    </div>
+    <div class="slider-wrap reveal">
+      <div class="slider" data-slider>
+        <div class="slider-track" data-track>
+          <div class="slider-slide">
+            <img src="tf.jpg" alt="عمل آخر 1" draggable="false">
+            <span class="slide-label">واجهات زجاجيه مقسمه </span>
+          </div>
+          <div class="slider-slide">
+            <img src="s2.jpg" alt="عمل آخر 2" draggable="false">
+            <span class="slide-label">مطبخ بإضاءة وتصميم عصري</span>
+          </div>
+          <div class="slider-slide">
+            <img src="sh.jpg" alt="عمل آخر 3" draggable="false">
+            <span class="slide-label">شبابيك زجاجيه</span>
+          </div>
+          <div class="slider-slide">
+            <img src="d1.jpg" alt="عمل آخر 4" draggable="false">
+            <span class="slide-label">أبواب  ألومنيوم زجاجيه</span>
+          </div>
+          <div class="slider-slide">
+            <img src="black.jpg" alt="عمل آخر 5" draggable="false">
+            <span class="slide-label">مطبخ باللون الاسود الفاخر</span>
+          </div>
+          <div class="slider-slide">
+            <img src="shpk.jpg" alt="عمل آخر 6" draggable="false">
+            <span class="slide-label">شبابيك زجاجيه</span>
+          </div>
+        </div>
+      </div>
+      <div class="slider-nav">
+        <button class="slider-arrow" data-prev aria-label="السابق">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="slider-dots" data-dots></div>
+        <button class="slider-arrow" data-next aria-label="التالي">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <p class="slider-hint">اسحب لمشاهدة المزيد من أعمالنا ⟷</p>
+    </div>
+  </section>
+
+  <!-- ============ QUOTE FORM ============ -->
+  <section class="section-quote" id="quote">
+    <div class="quote-grid quote-grid-solo">
+      <div class="quote-side reveal">
+        <span class="section-eyebrow">تواصل معنا</span>
+        <p>جاهز لمطبخ أحلامك؟ أخبرنا عن مشروعك، وسيتواصل فريقنا معك خلال 24 ساعة.</p>
+        <ul class="quote-mini-list">
+          <li><span class="dot">📐</span> معاينة ميدانية دقيقة</li>
+          <li><span class="dot">🕊️</span> استشارة بدون أي التزام</li>
+          <li><span class="dot">🏆</span> ضمان على التصنيع والتركيب</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand"><span class="T">T</span><span class="A">A</span>LYA-MITAL</div>
+        <p>مطابخ ألومنيوم فاخرة وديكورات مبتكرة، حيث يلتقي الفن بالمعادن في كل تفصيلة من مشروعك.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/share/186pejay8J/" aria-label="فيسبوك">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 8.5H16.5V5.5H14C11.79 5.5 10 7.29 10 9.5V11.5H8V14.5H10V19.5H13V14.5H15.5L16 11.5H13V9.5C13 8.95 13.45 8.5 14 8.5Z" fill="white"/></svg>
+          </a>
+          <a href="https://www.instagram.com/talyaalmutal?igsi=ZHh3cDFxazRwdjR1" aria-label="انستغرام">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" stroke="white" stroke-width="1.6"/><circle cx="16.6" cy="7.4" r="1" fill="white"/></svg>
+          </a>
+          <a href="https://wa.me/201098661533" aria-label="واتساب">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3.5C7.3 3.5 3.5 7.3 3.5 12C3.5 13.5 3.9 14.9 4.6 16.1L3.5 20.5L8 19.4C9.2 20.1 10.6 20.5 12 20.5C16.7 20.5 20.5 16.7 20.5 12C20.5 7.3 16.7 3.5 12 3.5Z" stroke="white" stroke-width="1.6"/><path d="M8.5 11.5C9.3 13.3 10.7 14.7 12.5 15.5C13 15.7 13.5 15.5 13.8 15.1L14.2 14.5C14.4 14.2 14.8 14.1 15.1 14.3L16.5 15.1C16.8 15.3 16.9 15.7 16.7 16C16.2 16.9 15.2 17.5 14.2 17.4C11.5 17.1 8.9 14.5 8.6 11.8C8.5 10.8 9.1 9.8 10 9.3C10.3 9.1 10.7 9.2 10.9 9.5L11.7 10.9C11.9 11.2 11.8 11.6 11.5 11.8L10.9 12.2C10.7 12.3 10.6 12.6 10.7 12.8" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <a href="https://www.google.com/maps/search/?api=1&query=العلوي+خلف+برج+الخطيب+مركز+فوه+كفر+الشيخ" target="_blank" rel="noopener">
+          العلوي ، خلف برج الخطيب - مركز فوه -محافظه كفر الشيخ
+        </a>
+        <a href="mailto:sayedtalya62@gmail.com">sayedtalya62@gmail.com</a>
+        <a href="tel:+201098661533">(+20)1098661533</a>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <a href="#expertise">لماذا نتميز</a>
+        <a href="#materials">الخامات</a>
+        <a href="#solutions">حلول المطابخ</a>
+        <a href="#gallery">معرض الأعمال</a>
+        <a href="#other-works">أعمالنا الأخرى</a>
+      </div>
+    </div>
+    <div class="footer-giant">TALYA-MITAL</div>
+    <div class="footer-bottom">
+      <span>طاليا ميتال - جميع الحقوق محفوظة 2026</span>
+      <div class="developer-rights">
+        <p>MADE BY HAMZA</p>
+        <div class="social-links">
+          <a href="https://wa.me/201066350362" target="_blank" class="whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="https://instagram.com/q_7vmza" target="_blank" class="instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- DARK / LIGHT THEME TOGGLE ----------
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
+
+    // فحص التفضيل المحفوظ سابقاً
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+    }
+
+    function updateThemeIcon(theme) {
+      if (!themeIcon) return;
+      if (theme === 'dark') {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    }
+
+    // Scroll reveal via IntersectionObserver
+    const revealEls = document.querySelectorAll('.reveal, .reveal-scale');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Respect reduced motion
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      revealEls.forEach(el => el.classList.add('in'));
+    }
+
+    // ---------- SPLASH / INTRO ----------
+    (function initSplash(){
+      const splash = document.getElementById('splash');
+      if (!splash) return;
+
+      if (reducedMotion) {
+        splash.remove();
+        return;
+      }
+
+      document.documentElement.classList.add('splash-lock');
+      const SPLASH_DURATION = 4000;
+
+      const finish = () => {
+        splash.classList.add('hide');
+        document.documentElement.classList.remove('splash-lock');
+        setTimeout(() => splash.remove(), 1150);
+      };
+
+      setTimeout(finish, SPLASH_DURATION);
+    })();
+
+    // ---------- DRAGGABLE / SWIPE SLIDERS ----------
+    (function initSliders(){
+      const sliders = document.querySelectorAll('[data-slider]');
+
+      sliders.forEach((root) => {
+        const track = root.querySelector('[data-track]');
+        const slides = Array.from(track.children);
+        const section = root.closest('.slider-wrap');
+        const dotsWrap = section ? section.querySelector('[data-dots]') : null;
+        const prevBtn = section ? section.querySelector('[data-prev]') : null;
+        const nextBtn = section ? section.querySelector('[data-next]') : null;
+
+        let index = 0;
+        let startX = 0;
+        let currentTranslate = 0;
+        let dragOffset = 0;
+        let isDragging = false;
+        let width = root.clientWidth;
+
+        // Build dots
+        if (dotsWrap) {
+          slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.setAttribute('aria-label', 'الانتقال للصورة ' + (i + 1));
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goTo(i));
+            dotsWrap.appendChild(dot);
+          });
+        }
+        const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+
+        function updateDots(){
+          dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        }
+
+        function setTrackPosition(withSnap){
+          track.classList.toggle('snap', !!withSnap && !reducedMotion);
+          currentTranslate = -index * width;
+          track.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function goTo(i){
+          index = Math.max(0, Math.min(slides.length - 1, i));
+          setTrackPosition(true);
+          updateDots();
+        }
+
+        prevBtn && prevBtn.addEventListener('click', () => goTo(index - 1));
+        nextBtn && nextBtn.addEventListener('click', () => goTo(index + 1));
+
+        window.addEventListener('resize', () => {
+          width = root.clientWidth;
+          setTrackPosition(false);
+        });
+
+        // Pointer-based drag (mouse + touch unified)
+        root.addEventListener('pointerdown', (e) => {
+          isDragging = true;
+          startX = e.clientX;
+          dragOffset = 0;
+          root.classList.add('dragging');
+          track.classList.remove('snap');
+          root.setPointerCapture(e.pointerId);
+        });
+
+        root.addEventListener('pointermove', (e) => {
+          if (!isDragging) return;
+          dragOffset = e.clientX - startX;
+          track.style.transform = `translateX(${currentTranslate - dragOffset}px)`;
+        });
+
+        function endDrag(){
+          if (!isDragging) return;
+          isDragging = false;
+          root.classList.remove('dragging');
+
+          const threshold = width * 0.16;
+          if (dragOffset > threshold && index < slides.length - 1) {
+            index += 1;
+          } else if (dragOffset < -threshold && index > 0) {
+            index -= 1;
+          }
+          setTrackPosition(true);
+          updateDots();
+        }
+
+        root.addEventListener('pointerup', endDrag);
+        root.addEventListener('pointercancel', endDrag);
+        root.addEventListener('pointerleave', () => { if (isDragging) endDrag(); });
+
+        // Prevent native image ghost-drag
+        track.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
+
+        setTrackPosition(false);
+        updateDots();
+      });
+    })();
+  </script>
+
+</body>
+</html>
