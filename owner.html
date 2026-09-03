@@ -117,9 +117,13 @@
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import {
+  getFirestore, collection, deleteDoc, doc, updateDoc, onSnapshot, getDocs
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
 (function(){
-  const STORAGE_KEY = 'talya_reviews_v1';
   const OWNER_SESSION_KEY = 'talya_owner_session';
 
   // كلمة المرور غير مخزّنة كنص صريح، بل كبصمة (hash) مُشفّرة بملح (salt) وبتكرار 200,000 مرة (PBKDF2).
@@ -132,7 +136,20 @@
   // console.log(Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('')); })()
   const OWNER_PASSWORD_SALT = 'talya-mital-owner-salt-v1';
   const OWNER_PASSWORD_ITERATIONS = 200000;
-  const OWNER_PASSWORD_HASH = 'e06619bd1e02247e1e3edd6253d388c16da2ad91cead5b86ff68e6e22b0c4dfe';
+  const OWNER_PASSWORD_HASH = 'ضع_هنا_البصمة_الناتجة_من_كلمة_المرور_الجديدة';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhO_U383cs3ZzGT9BxVk5N7JbdQoSXUDg",
+    authDomain: "talya-mital-66f77.firebaseapp.com",
+    projectId: "talya-mital-66f77",
+    storageBucket: "talya-mital-66f77.firebasestorage.app",
+    messagingSenderId: "266337965327",
+    appId: "1:266337965327:web:c7fb1dde49d8e2baf89a7a"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const reviewsCol = collection(db, 'reviews');
+  let unsubscribe = null;
 
   async function hashText(text){
     const enc = new TextEncoder();
@@ -195,22 +212,16 @@
     }
   });
 
-  function loadReviews(){
-    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch(e){ return []; }
-  }
-  function saveReviews(reviews){ localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews)); }
   function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str==null?'':String(str); return d.innerHTML; }
   function starsMarkup(rating){
     let html=''; for(let i=1;i<=5;i++){ html += `<i class="fa-solid fa-star${i<=rating?' filled':''}"></i>`; } return html;
   }
 
-  function renderList(){
-    const reviews = loadReviews();
+  function renderList(reviews){
     const sorted = [...reviews].sort((a,b)=>{
       if (a.pinned && !b.pinned) return -1;
       if (!a.pinned && b.pinned) return 1;
-      return (b.id||0)-(a.id||0);
+      return (b.createdAtMs||0)-(a.createdAtMs||0);
     });
     countText.textContent = reviews.length + (reviews.length===1?' تقييم':' تقييمات');
     if (!sorted.length){
@@ -235,31 +246,65 @@
     `).join('');
   }
 
-  listWrap.addEventListener('click', (e)=>{
+  listWrap.addEventListener('click', async (e)=>{
     const btn = e.target.closest('button[data-action]');
     if (!btn) return;
-    const id = Number(btn.closest('.review-card').dataset.id);
-    let reviews = loadReviews();
-    if (btn.dataset.action === 'delete'){
-      if (!confirm('حذف هذا التعليق نهائياً؟')) return;
-      reviews = reviews.filter(r=>r.id!==id);
-    } else {
-      reviews = reviews.map(r=> r.id===id ? {...r, pinned:!r.pinned} : r);
+    const id = btn.closest('.review-card').dataset.id;
+    btn.disabled = true;
+    try{
+      if (btn.dataset.action === 'delete'){
+        if (!confirm('حذف هذا التعليق نهائياً؟')) { btn.disabled = false; return; }
+        await deleteDoc(doc(db, 'reviews', id));
+      } else {
+        const card = btn.closest('.review-card');
+        const currentlyPinned = card.classList.contains('pinned');
+        await updateDoc(doc(db, 'reviews', id), { pinned: !currentlyPinned });
+      }
+    }catch(err){
+      alert('حصل خطأ، حاول تاني.');
+      console.error(err);
+    }finally{
+      btn.disabled = false;
     }
-    saveReviews(reviews);
-    renderList();
   });
 
-  clearAllBtn.addEventListener('click', ()=>{
+  clearAllBtn.addEventListener('click', async ()=>{
     if (!confirm('حذف كل التقييمات نهائياً؟ لا يمكن التراجع.')) return;
-    saveReviews([]);
-    renderList();
+    clearAllBtn.disabled = true;
+    try{
+      const snap = await getDocs(reviewsCol);
+      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'reviews', d.id))));
+    }catch(err){
+      alert('حصل خطأ أثناء الحذف، حاول تاني.');
+      console.error(err);
+    }finally{
+      clearAllBtn.disabled = false;
+    }
   });
 
   function showPanel(){
     gate.style.display='none';
     panel.style.display='block';
-    renderList();
+    if (!unsubscribe){
+      unsubscribe = onSnapshot(reviewsCol, (snapshot) => {
+        const reviews = snapshot.docs.map(d => {
+          const data = d.data();
+          return {
+            id: d.id,
+            name: data.name,
+            rating: data.rating,
+            comment: data.comment,
+            date: data.date,
+            pinned: !!data.pinned,
+            createdAtMs: data.createdAt && data.createdAt.toMillis ? data.createdAt.toMillis() : 0
+          };
+        });
+        renderList(reviews);
+      }, (err) => {
+        listWrap.innerHTML = '<div class="empty">تعذّر تحميل التقييمات.</div>';
+        console.error(err);
+      });
+    }
   }
 
   logoutBtn.addEventListener('click', ()=>{

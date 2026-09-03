@@ -87,11 +87,7 @@
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
-  html{
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    max-width: 100vw;
-  }
+  html{ scroll-behavior: smooth; }
 
   body{
     font-family: 'Cairo', 'Readex Pro', sans-serif;
@@ -99,9 +95,6 @@
     background: var(--bg-main);
     line-height: 1.75;
     overflow-x: hidden;
-    max-width: 100vw;
-    width: 100%;
-    position: relative;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
@@ -120,7 +113,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .container{ max-width: 1280px; width:100%; margin:0 auto; padding: 0 40px; }
+  .container{ max-width: 1280px; margin:0 auto; padding: 0 40px; }
 
   /* ---------- REVEAL ON SCROLL ---------- */
   .reveal{ opacity:0; transform: translateY(28px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
@@ -688,7 +681,6 @@
   .slider-nav{
     display:flex; align-items:center; justify-content:center; gap:22px;
     margin-top: 28px;
-    direction: ltr; /* matches .slider/.slider-track which are forced LTR */
   }
   .slider-arrow{
     width:46px; height:46px; border-radius:50%; border:1px solid var(--line);
@@ -1031,11 +1023,11 @@
       </div>
       <div class="slider-nav">
         <button class="slider-arrow" data-prev aria-label="السابق">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="slider-dots" data-dots></div>
         <button class="slider-arrow" data-next aria-label="التالي">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <p class="slider-hint">اسحب لمشاهدة المزيد من الخامات ⟷</p>
@@ -1155,39 +1147,15 @@
             <img src="sp2.jpg" alt="عمل آخر 7" draggable="false">
             <span class="slide-label"> مطبخ عصري حديث بتقنيات عاليه</span>
           </div>
-          <div class="slider-slide">
-            <img src="8.jpg" alt="عمل آخر 8" draggable="false">
-            <span class="slide-label"> مطبخ كلاسيكي   </span>
-          </div>
-          <div class="slider-slide">
-            <img src="9.jpg" alt="عمل آخر 9" draggable="false">
-            <span class="slide-label"> مطبخ الدريسنج الزجاجي </span>
-          </div>
-          <div class="slider-slide">
-            <img src="10.jpg" alt="عمل آخر 10" draggable="false">
-            <span class="slide-label">  مطبخ الدريسنج 2 </span>
-          </div>
-          <div class="slider-slide">
-            <img src="11.jpg" alt="عمل آخر 11" draggable="false">
-            <span class="slide-label"> مطبخ خشبي حديث </span>
-          </div>
-          <div class="slider-slide">
-            <img src="12.jpg" alt="عمل آخر 12" draggable="false">
-            <span class="slide-label"> مطبخ مودرن فضي   </span>
-          </div>
-          <div class="slider-slide">
-            <img src="13.jpg" alt="عمل آخر 13" draggable="false">
-            <span class="slide-label"> صوره سينمائيه لاضاءه المطبخ </span>
-          </div>
         </div>
       </div>
       <div class="slider-nav">
         <button class="slider-arrow" data-prev aria-label="السابق">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="slider-dots" data-dots></div>
         <button class="slider-arrow" data-next aria-label="التالي">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <p class="slider-hint">اسحب لمشاهدة المزيد من أعمالنا ⟷</p>
@@ -1196,7 +1164,7 @@
 
   <!-- ============ REVIEWS ============ -->
   <section class="section-reviews" id="reviews">
-    <img src="yy.jpg" alt="" class="reviews-bg-img">
+    <img src="reviews-bg.jpg" alt="" class="reviews-bg-img">
     <div class="section-head center reveal">
       <span class="section-eyebrow" style="justify-content:center;">آراء عملائنا</span>
       <h2>تقييمات وتجارب عملائنا</h2>
@@ -1376,7 +1344,7 @@
       }
 
       document.documentElement.classList.add('splash-lock');
-      const SPLASH_DURATION = 4000;
+      const SPLASH_DURATION = 2000;
 
       const finish = () => {
         splash.classList.add('hide');
@@ -1487,11 +1455,25 @@
     })();
 
     // ---------- REVIEWS & RATINGS ----------
-    (function initReviews(){
-      const STORAGE_KEY = 'talya_reviews_v1';
-      // ملاحظة: إدارة التقييمات (حذف/تثبيت) بقت في صفحة مالك منفصلة غير مرتبطة بهذه الصفحة (owner.html).
-      // هذه الصفحة العامة بتعرض التقييمات فقط وبتستقبل تقييمات جديدة من الزوار، من غير أي وضع "مالك" هنا.
-      const isOwner = false;
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import {
+        getFirestore, collection, addDoc, onSnapshot,
+        serverTimestamp
+      } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDhO_U383cs3ZzGT9BxVk5N7JbdQoSXUDg",
+        authDomain: "talya-mital-66f77.firebaseapp.com",
+        projectId: "talya-mital-66f77",
+        storageBucket: "talya-mital-66f77.firebasestorage.app",
+        messagingSenderId: "266337965327",
+        appId: "1:266337965327:web:c7fb1dde49d8e2baf89a7a"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const reviewsCol = collection(db, 'reviews');
 
       const nameInput = document.getElementById('reviewerNameInput');
       const commentInput = document.getElementById('reviewCommentInput');
@@ -1503,142 +1485,136 @@
       const avgStarsWrap = document.getElementById('avgStarsWrap');
       const countEl = document.getElementById('reviewCountText');
 
-      if (!listWrap) return;
+      if (listWrap){
 
-      function defaultReviews(){
-        return [];
-      }
+        function escapeHtml(str){
+          const div = document.createElement('div');
+          div.textContent = str == null ? '' : String(str);
+          return div.innerHTML;
+        }
 
-      function loadReviews(){
-        try{
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw){
-            const seed = defaultReviews();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
-            return seed;
+        function starsMarkup(rating){
+          let html = '';
+          for (let i = 1; i <= 5; i++){
+            html += `<i class="fa-solid fa-star${i <= rating ? ' filled' : ''}"></i>`;
           }
-          return JSON.parse(raw);
-        }catch(e){
-          return defaultReviews();
-        }
-      }
-
-      function saveReviews(reviews){
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
-      }
-
-      function escapeHtml(str){
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-      }
-
-      function starsMarkup(rating){
-        let html = '';
-        for (let i = 1; i <= 5; i++){
-          html += `<i class="fa-solid fa-star${i <= rating ? ' filled' : ''}"></i>`;
-        }
-        return html;
-      }
-
-      function renderSummary(reviews){
-        const count = reviews.length;
-        const avg = count ? (reviews.reduce((s, r) => s + r.rating, 0) / count) : 0;
-        avgValueEl.textContent = avg.toFixed(1);
-        avgStarsWrap.innerHTML = starsMarkup(Math.round(avg));
-        countEl.textContent = count + (count === 1 ? ' تقييم' : ' تقييمات');
-      }
-
-      function renderReviews(){
-        const reviews = loadReviews();
-        const sorted = [...reviews].sort((a, b) => {
-          if (a.pinned && !b.pinned) return -1;
-          if (!a.pinned && b.pinned) return 1;
-          return (b.id || 0) - (a.id || 0);
-        });
-
-        renderSummary(reviews);
-
-        if (!sorted.length){
-          listWrap.innerHTML = '<div class="reviews-empty">لا توجد تقييمات بعد، كن أول من يشاركنا رأيه!</div>';
-          return;
+          return html;
         }
 
-        listWrap.innerHTML = sorted.map(r => `
-          <div class="review-card ${r.pinned ? 'pinned' : ''}" data-id="${r.id}">
-            ${r.pinned ? '<span class="pin-badge">مثبّت</span>' : ''}
-            <div class="rc-head">
-              <div>
-                <div class="rc-name">${escapeHtml(r.name)}</div>
-                <div class="rc-date">${escapeHtml(r.date)}</div>
-              </div>
-              <div class="rc-stars">${starsMarkup(r.rating)}</div>
-            </div>
-            <p class="rc-comment">${escapeHtml(r.comment)}</p>
-            ${isOwner ? `
-            <div class="rc-actions">
-              <button class="btn-pin ${r.pinned ? 'active' : ''}" data-action="pin" title="تثبيت / إلغاء تثبيت التعليق"><i class="fa-solid fa-thumbtack"></i></button>
-              <button class="btn-delete" data-action="delete" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
-            </div>` : ''}
-          </div>
-        `).join('');
-      }
+        function renderSummary(reviews){
+          const count = reviews.length;
+          const avg = count ? (reviews.reduce((s, r) => s + r.rating, 0) / count) : 0;
+          avgValueEl.textContent = avg.toFixed(1);
+          avgStarsWrap.innerHTML = starsMarkup(Math.round(avg));
+          countEl.textContent = count + (count === 1 ? ' تقييم' : ' تقييمات');
+        }
 
-      // ----- تفاعل اختيار النجوم -----
-      function highlightStars(value){
-        starIcons.forEach(icon => {
-          const v = Number(icon.dataset.star);
-          icon.classList.toggle('fa-solid', v <= value);
-          icon.classList.toggle('fa-regular', v > value);
-          icon.classList.toggle('active', v <= value);
-        });
-      }
-
-      if (starIcons.length){
-        starIcons.forEach(icon => {
-          icon.addEventListener('mouseenter', () => highlightStars(Number(icon.dataset.star)));
-          icon.addEventListener('click', () => {
-            starInput.dataset.value = icon.dataset.star;
-            highlightStars(Number(icon.dataset.star));
+        function renderReviews(reviews){
+          const sorted = [...reviews].sort((a, b) => {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return (b.createdAtMs || 0) - (a.createdAtMs || 0);
           });
-        });
-        starInput.addEventListener('mouseleave', () => highlightStars(Number(starInput.dataset.value) || 0));
-      }
 
-      // ----- إرسال تقييم جديد -----
-      if (submitBtn){
-        submitBtn.addEventListener('click', () => {
-          const name = (nameInput.value || '').trim();
-          const comment = (commentInput.value || '').trim();
-          const rating = Number(starInput.dataset.value) || 0;
+          renderSummary(reviews);
 
-          if (!name || !comment || !rating){
-            alert('من فضلك اكتب اسمك، اختر تقييمك بالنجوم، واكتب تعليقك قبل الإرسال.');
+          if (!sorted.length){
+            listWrap.innerHTML = '<div class="reviews-empty">لا توجد تقييمات بعد، كن أول من يشاركنا رأيه!</div>';
             return;
           }
 
-          const reviews = loadReviews();
-          reviews.push({
-            id: Date.now(),
-            name,
-            rating,
-            comment,
-            date: new Date().toLocaleDateString('ar-EG'),
-            pinned: false
+          listWrap.innerHTML = sorted.map(r => `
+            <div class="review-card ${r.pinned ? 'pinned' : ''}" data-id="${r.id}">
+              ${r.pinned ? '<span class="pin-badge">مثبّت</span>' : ''}
+              <div class="rc-head">
+                <div>
+                  <div class="rc-name">${escapeHtml(r.name)}</div>
+                  <div class="rc-date">${escapeHtml(r.date)}</div>
+                </div>
+                <div class="rc-stars">${starsMarkup(r.rating)}</div>
+              </div>
+              <p class="rc-comment">${escapeHtml(r.comment)}</p>
+            </div>
+          `).join('');
+        }
+
+        // ----- استماع مباشر لأي تحديث في قاعدة البيانات (كل الزوار يشوفوا نفس التقييمات فورًا) -----
+        onSnapshot(reviewsCol, (snapshot) => {
+          const reviews = snapshot.docs.map(d => {
+            const data = d.data();
+            return {
+              id: d.id,
+              name: data.name,
+              rating: data.rating,
+              comment: data.comment,
+              date: data.date,
+              pinned: !!data.pinned,
+              createdAtMs: data.createdAt && data.createdAt.toMillis ? data.createdAt.toMillis() : 0
+            };
           });
-          saveReviews(reviews);
-          renderReviews();
-
-          nameInput.value = '';
-          commentInput.value = '';
-          starInput.dataset.value = '0';
-          highlightStars(0);
+          renderReviews(reviews);
+        }, (err) => {
+          listWrap.innerHTML = '<div class="reviews-empty">تعذّر تحميل التقييمات حاليًا، حاول لاحقًا.</div>';
+          console.error(err);
         });
+
+        // ----- تفاعل اختيار النجوم -----
+        function highlightStars(value){
+          starIcons.forEach(icon => {
+            const v = Number(icon.dataset.star);
+            icon.classList.toggle('fa-solid', v <= value);
+            icon.classList.toggle('fa-regular', v > value);
+            icon.classList.toggle('active', v <= value);
+          });
+        }
+
+        if (starIcons.length){
+          starIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', () => highlightStars(Number(icon.dataset.star)));
+            icon.addEventListener('click', () => {
+              starInput.dataset.value = icon.dataset.star;
+              highlightStars(Number(icon.dataset.star));
+            });
+          });
+          starInput.addEventListener('mouseleave', () => highlightStars(Number(starInput.dataset.value) || 0));
+        }
+
+        // ----- إرسال تقييم جديد -----
+        if (submitBtn){
+          submitBtn.addEventListener('click', async () => {
+            const name = (nameInput.value || '').trim();
+            const comment = (commentInput.value || '').trim();
+            const rating = Number(starInput.dataset.value) || 0;
+
+            if (!name || !comment || !rating){
+              alert('من فضلك اكتب اسمك، اختر تقييمك بالنجوم، واكتب تعليقك قبل الإرسال.');
+              return;
+            }
+
+            submitBtn.disabled = true;
+            try{
+              await addDoc(reviewsCol, {
+                name,
+                rating,
+                comment,
+                date: new Date().toLocaleDateString('ar-EG'),
+                pinned: false,
+                createdAt: serverTimestamp()
+              });
+              nameInput.value = '';
+              commentInput.value = '';
+              starInput.dataset.value = '0';
+              highlightStars(0);
+            }catch(e){
+              alert('حصل خطأ أثناء إرسال التقييم، حاول تاني.');
+              console.error(e);
+            }finally{
+              submitBtn.disabled = false;
+            }
+          });
+        }
       }
+    </script>
 
-      renderReviews();
-    })();
-  </script>
-
-</body>
+  </body>
 </html>
