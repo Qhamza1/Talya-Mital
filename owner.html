@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة المالك — طاليا ميتال</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0A0A0A; --black-soft:#1A1A1A; --red:#E31B23; --purple:#8B5CF6;
+    --purple-deep:#6D28D9; --line:rgba(255,255,255,0.12); --radius:18px;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; background:var(--black); color:#F5F5F5;
+    font-family:'Cairo', sans-serif; padding:32px 18px 80px;
+  }
+  .wrap{ max-width:760px; margin:0 auto; }
+  h1{ font-size:22px; margin-bottom:4px; }
+  .sub{ color:rgba(255,255,255,0.5); font-size:13.5px; margin-bottom:32px; }
+
+  /* شاشة الدخول */
+  #gate{ display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; gap:18px; }
+  #gate i{ font-size:34px; color:var(--purple); }
+  #passInput{
+    width:100%; max-width:320px; padding:14px 16px; border-radius:14px;
+    border:1px solid var(--line); background:var(--black-soft); color:#fff; font-size:15px;
+    font-family:inherit; text-align:center;
+  }
+  #passInput:focus{ outline:none; border-color:var(--purple); }
+  .btn{
+    padding:13px 28px; border-radius:14px; border:1px solid var(--purple);
+    background:linear-gradient(135deg, var(--purple), var(--red)); color:#fff;
+    font-family:inherit; font-size:14.5px; font-weight:700; cursor:pointer;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-outline{ background:transparent; border:1px solid var(--line); color:#eee; }
+  #err{ color:var(--red); font-size:13.5px; min-height:18px; }
+
+  /* لوحة الإدارة */
+  #panel{ display:none; }
+  .toolbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:10px; flex-wrap:wrap; }
+  .review-card{
+    background:var(--black-soft); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .review-card.pinned{ border-color:rgba(212,175,55,0.5); background:rgba(212,175,55,0.06); }
+  .rc-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
+  .rc-name{ font-weight:700; font-size:15px; }
+  .rc-date{ font-size:12px; color:rgba(255,255,255,0.45); margin-top:2px; }
+  .rc-stars{ font-size:13px; color:rgba(255,255,255,0.2); direction:ltr; }
+  .rc-stars i.filled{ color:#d4af37; }
+  .rc-comment{ font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7; margin:0 0 12px; }
+  .rc-actions{ display:flex; gap:10px; }
+  .rc-actions button{
+    flex:1; padding:9px; border-radius:10px; border:1px solid var(--line);
+    background:transparent; color:#eee; font-family:inherit; font-size:13px; cursor:pointer;
+  }
+  .rc-actions button.active, .rc-actions .btn-delete:hover{ border-color:var(--red); color:var(--red); }
+  .empty{ text-align:center; padding:50px 0; color:rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="gate">
+    <i class="fa-solid fa-lock"></i>
+    <div>
+      <h1>دخول المالك</h1>
+      <div class="sub">أدخل كلمة المرور لإدارة تقييمات طاليا ميتال</div>
+    </div>
+    <input type="password" id="passInput" placeholder="كلمة المرور">
+    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.6);">
+      <input type="checkbox" id="showPass1"> إظهار كلمة المرور
+    </label>
+    <button class="btn" id="loginBtn">دخول</button>
+    <div id="err"></div>
+    <button class="btn-outline" id="forgotBtn" style="background:transparent; border:none; color:rgba(255,255,255,0.45); font-family:inherit; font-size:12.5px; text-decoration:underline; cursor:pointer;">عايز تغيّر كلمة المرور أو تولّدها من جديد؟</button>
+  </div>
+
+  <div id="setup" style="display:none; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; gap:16px;">
+    <i class="fa-solid fa-key" style="font-size:34px; color:var(--purple);"></i>
+    <div>
+      <h1>إعداد كلمة المرور لأول مرة</h1>
+      <div class="sub">مفيش كلمة مرور محفوظة بعد. اكتب اللي عايزه هنا، وهنولّدلك الكود اللي تنسخه في الملف.</div>
+    </div>
+    <input type="password" id="setupPass1" placeholder="كلمة المرور الجديدة" style="width:100%; max-width:320px; padding:14px 16px; border-radius:14px; border:1px solid var(--line); background:var(--black-soft); color:#fff; font-size:15px; font-family:inherit; text-align:center;">
+    <input type="password" id="setupPass2" placeholder="أعد كتابة كلمة المرور" style="width:100%; max-width:320px; padding:14px 16px; border-radius:14px; border:1px solid var(--line); background:var(--black-soft); color:#fff; font-size:15px; font-family:inherit; text-align:center;">
+    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.6);">
+      <input type="checkbox" id="showPass2"> إظهار كلمة المرور
+    </label>
+    <button class="btn" id="genBtn">توليد الكود</button>
+    <div id="setupErr" style="color:var(--red); font-size:13.5px; min-height:18px;"></div>
+    <div id="genResult" style="display:none; width:100%; max-width:520px; text-align:right;">
+      <div class="sub" style="margin-bottom:8px;">انسخ السطر ده وحطه في ملف owner.html بدل قيمة OWNER_PASSWORD_HASH الحالية، ثم ارفع الملف المُحدّث:</div>
+      <textarea id="hashOutput" readonly rows="3" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--black-soft); color:#d4af37; font-family:monospace; font-size:12.5px; direction:ltr;"></textarea>
+      <button class="btn btn-outline" id="copyHashBtn" style="margin-top:10px;">نسخ</button>
+    </div>
+  </div>
+
+  <div id="panel">
+    <h1>إدارة التقييمات</h1>
+    <div class="sub">طاليا ميتال — لوحة خاصة بالمالك فقط</div>
+    <div class="toolbar">
+      <span id="countText" style="color:rgba(255,255,255,0.6); font-size:13.5px;"></span>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-outline" id="logoutBtn">خروج</button>
+        <button class="btn btn-outline" id="clearAllBtn" style="border-color:var(--red); color:var(--red);">حذف الكل</button>
+      </div>
+    </div>
+    <div id="listWrap"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'talya_reviews_v1';
+  const OWNER_SESSION_KEY = 'talya_owner_session';
+
+  // كلمة المرور غير مخزّنة كنص صريح، بل كبصمة (hash) مُشفّرة بملح (salt) وبتكرار 200,000 مرة (PBKDF2).
+  // لتغييرها: افتح Console (F12) في أي صفحة على نفس الموقع، ألصق السطر التالي بعد استبدال
+  // "كلمة_السر_الجديدة" بالباسورد اللي عايزه، وانسخ الناتج مكان OWNER_PASSWORD_HASH تحت.
+  //
+  // (async()=>{ const salt='talya-mital-owner-salt-v1'; const enc=new TextEncoder();
+  // const keyMaterial=await crypto.subtle.importKey('raw',enc.encode('كلمة_السر_الجديدة'),'PBKDF2',false,['deriveBits']);
+  // const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(salt),iterations:200000,hash:'SHA-256'},keyMaterial,256);
+  // console.log(Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('')); })()
+  const OWNER_PASSWORD_SALT = 'talya-mital-owner-salt-v1';
+  const OWNER_PASSWORD_ITERATIONS = 200000;
+  const OWNER_PASSWORD_HASH = 'e06619bd1e02247e1e3edd6253d388c16da2ad91cead5b86ff68e6e22b0c4dfe';
+
+  async function hashText(text){
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(text), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits(
+      { name:'PBKDF2', salt:enc.encode(OWNER_PASSWORD_SALT), iterations:OWNER_PASSWORD_ITERATIONS, hash:'SHA-256' },
+      keyMaterial, 256
+    );
+    return Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  const gate = document.getElementById('gate');
+  const setup = document.getElementById('setup');
+  const panel = document.getElementById('panel');
+  const passInput = document.getElementById('passInput');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const clearAllBtn = document.getElementById('clearAllBtn');
+  const errEl = document.getElementById('err');
+  const listWrap = document.getElementById('listWrap');
+  const countText = document.getElementById('countText');
+  const setupPass1 = document.getElementById('setupPass1');
+  const setupPass2 = document.getElementById('setupPass2');
+  const genBtn = document.getElementById('genBtn');
+  const setupErr = document.getElementById('setupErr');
+  const genResult = document.getElementById('genResult');
+  const hashOutput = document.getElementById('hashOutput');
+  const copyHashBtn = document.getElementById('copyHashBtn');
+  const showPass1 = document.getElementById('showPass1');
+  const showPass2 = document.getElementById('showPass2');
+
+  showPass1.addEventListener('change', ()=>{ passInput.type = showPass1.checked ? 'text' : 'password'; });
+  showPass2.addEventListener('change', ()=>{
+    const t = showPass2.checked ? 'text' : 'password';
+    setupPass1.type = t; setupPass2.type = t;
+  });
+
+  const HASH_NOT_SET = OWNER_PASSWORD_HASH.startsWith('ضع_هنا');
+
+  genBtn.addEventListener('click', async ()=>{
+    setupErr.textContent='';
+    genResult.style.display='none';
+    const p1 = setupPass1.value.trim(), p2 = setupPass2.value.trim();
+    if (!p1 || p1.length < 4){ setupErr.textContent='اكتب كلمة مرور 4 أحرف على الأقل.'; return; }
+    if (p1 !== p2){ setupErr.textContent='كلمتا المرور غير متطابقتين.'; return; }
+    const h = await hashText(p1);
+    hashOutput.value = "const OWNER_PASSWORD_HASH = '" + h + "';";
+    genResult.style.display='block';
+  });
+
+  copyHashBtn.addEventListener('click', ()=>{
+    hashOutput.select();
+    hashOutput.setSelectionRange(0, 99999);
+    try{
+      navigator.clipboard.writeText(hashOutput.value);
+      copyHashBtn.textContent = 'تم النسخ ✓';
+      setTimeout(()=> copyHashBtn.textContent='نسخ', 1500);
+    }catch(e){
+      document.execCommand('copy');
+    }
+  });
+
+  function loadReviews(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch(e){ return []; }
+  }
+  function saveReviews(reviews){ localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews)); }
+  function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str==null?'':String(str); return d.innerHTML; }
+  function starsMarkup(rating){
+    let html=''; for(let i=1;i<=5;i++){ html += `<i class="fa-solid fa-star${i<=rating?' filled':''}"></i>`; } return html;
+  }
+
+  function renderList(){
+    const reviews = loadReviews();
+    const sorted = [...reviews].sort((a,b)=>{
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return (b.id||0)-(a.id||0);
+    });
+    countText.textContent = reviews.length + (reviews.length===1?' تقييم':' تقييمات');
+    if (!sorted.length){
+      listWrap.innerHTML = '<div class="empty">لا توجد تقييمات حالياً.</div>';
+      return;
+    }
+    listWrap.innerHTML = sorted.map(r => `
+      <div class="review-card ${r.pinned?'pinned':''}" data-id="${r.id}">
+        <div class="rc-head">
+          <div>
+            <div class="rc-name">${escapeHtml(r.name)}</div>
+            <div class="rc-date">${escapeHtml(r.date)}</div>
+          </div>
+          <div class="rc-stars">${starsMarkup(r.rating)}</div>
+        </div>
+        <p class="rc-comment">${escapeHtml(r.comment)}</p>
+        <div class="rc-actions">
+          <button data-action="pin" class="${r.pinned?'active':''}"><i class="fa-solid fa-thumbtack"></i> ${r.pinned?'إلغاء التثبيت':'تثبيت'}</button>
+          <button data-action="delete" class="btn-delete"><i class="fa-solid fa-trash"></i> حذف</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  listWrap.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const id = Number(btn.closest('.review-card').dataset.id);
+    let reviews = loadReviews();
+    if (btn.dataset.action === 'delete'){
+      if (!confirm('حذف هذا التعليق نهائياً؟')) return;
+      reviews = reviews.filter(r=>r.id!==id);
+    } else {
+      reviews = reviews.map(r=> r.id===id ? {...r, pinned:!r.pinned} : r);
+    }
+    saveReviews(reviews);
+    renderList();
+  });
+
+  clearAllBtn.addEventListener('click', ()=>{
+    if (!confirm('حذف كل التقييمات نهائياً؟ لا يمكن التراجع.')) return;
+    saveReviews([]);
+    renderList();
+  });
+
+  function showPanel(){
+    gate.style.display='none';
+    panel.style.display='block';
+    renderList();
+  }
+
+  logoutBtn.addEventListener('click', ()=>{
+    sessionStorage.removeItem(OWNER_SESSION_KEY);
+    panel.style.display='none';
+    gate.style.display='flex';
+    passInput.value='';
+  });
+
+  async function tryLogin(){
+    errEl.textContent='';
+    const pass = passInput.value.trim();
+    if (!pass) return;
+    let enteredHash;
+    try{ enteredHash = await hashText(pass); }
+    catch(e){ errEl.textContent='المتصفح لا يدعم هذه الميزة، جرّب متصفح حديث عبر رابط https.'; return; }
+    if (enteredHash === OWNER_PASSWORD_HASH){
+      sessionStorage.setItem(OWNER_SESSION_KEY,'true');
+      showPanel();
+    } else {
+      errEl.textContent='كلمة المرور غير صحيحة.';
+    }
+  }
+
+  loginBtn.addEventListener('click', tryLogin);
+  passInput.addEventListener('keydown', (e)=>{ if (e.key==='Enter') tryLogin(); });
+
+  document.getElementById('forgotBtn').addEventListener('click', ()=>{
+    gate.style.display='none';
+    setup.style.display='flex';
+  });
+
+  if (HASH_NOT_SET){
+    gate.style.display='none';
+    setup.style.display='flex';
+  } else if (sessionStorage.getItem(OWNER_SESSION_KEY) === 'true'){
+    showPanel();
+  }
+})();
+</script>
+</body>
+</html>
