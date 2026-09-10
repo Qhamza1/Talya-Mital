@@ -840,6 +840,42 @@
 </head>
 <body>
 
+  <!-- ============ MAINTENANCE MODE (كود ثابت للتحكم في الصيانة) ============ -->
+  <script>
+    // غيّر القيمة إلى true عشان تفعّل وضع الصيانة، و false عشان ترجع الموقع طبيعي
+    const MAINTENANCE_MODE = false;
+
+    if (MAINTENANCE_MODE) {
+      document.write(`
+        <div id="maintenance-screen" style="
+          position:fixed; inset:0; z-index:999999;
+          background:#0A0A0A; color:#FFFFFF;
+          display:flex; align-items:center; justify-content:center;
+          flex-direction:column; text-align:center; padding:30px;
+          font-family:'Cairo','Readex Pro',sans-serif; direction:rtl;
+        ">
+          <div style="
+            width:70px; height:70px; border-radius:50%;
+            border:4px solid rgba(255,255,255,0.15);
+            border-top-color:#8B5CF6;
+            animation: maint-spin 1s linear infinite;
+            margin-bottom:28px;
+          "></div>
+          <h1 style="font-size:24px; font-weight:800; margin-bottom:12px;">
+            الموقع تحت الصيانة حاليًا
+          </h1>
+          <p style="font-size:15px; color:#B0B0B0; max-width:420px; line-height:1.8;">
+            الخادم لا يستجيب حاليًا بسبب تحديثات بسيطة، من فضلك حاول مرة أخرى بعد بضع دقائق.
+          </p>
+          <style>
+            @keyframes maint-spin { to { transform: rotate(360deg); } }
+          </style>
+        </div>
+      `);
+      document.close();
+    }
+  </script>
+
   <!-- ============ SPLASH / INTRO ============ -->
   <div class="splash" id="splash">
     <div class="splash-inner">
