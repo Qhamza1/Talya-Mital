@@ -884,6 +884,10 @@
   .reveal-scale{ transform: scale(0.94); transition: opacity 1.4s var(--ease), transform 1.4s var(--ease); }
   .reveal-scale.in{ transform: scale(1); }
 
+  /* وقت التجمّد: كل الأنيميشن يقف واللمس يتقفل */
+  html.hitching *, html.hitching *::before, html.hitching *::after{ animation-play-state: paused !important; }
+  html.hitching body{ pointer-events: none; }
+
   /* بيرسبكتف للكروت عشان الـ tilt يبان 3D */
   .solutions-grid, .gallery-grid{ perspective: 1400px; }
 
@@ -1976,12 +1980,22 @@ video.addEventListener("click", () => {
     cursorDot:  0.22,   // النقطة الصغيرة
     tilt:       0.045   // ميلان الكروت
   };
+  /* ========= وضع "السيرفر واقع": تقطيع + تجمّدات عشوائية ========= */
+  const SERVER_LAG = {
+    enabled:    true,          // false = يرجع الحركة الناعمة
+    fps:        9,             // الحركة بتتحدّث بس بالعدد ده في الثانية (متقطعة)
+    hitchEvery: [2500, 6000],  // كل كام ms تحصل تجمّدة (من - إلى)
+    hitchFor:   [350, 1200]    // مدة التجمّدة ms (من - إلى)
+  };
+  const rnd = ([a, b]) => a + Math.random() * (b - a);
+  let lastStep = 0, freezeUntil = 0, nextHitch = performance.now() + 3500;
+
   const TILT_MAX = 12;  // أقصى ميلان (بالدرجات × 0.5 تقريبًا)
 
   /* ---------- 1) Smooth scroll بلاج (Lenis) ---------- */
   let lenis = null;
   if (typeof Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: LAG.scroll, wheelMultiplier: 0.9 });
+    lenis = new Lenis({ lerp: LAG.scroll, wheelMultiplier: 0.9, syncTouch: SERVER_LAG.enabled, syncTouchLerp: 0.06, touchMultiplier: 1.2 });
 
     // السكرول يفضل مقفول طول الـ intro وبعدين يشتغل لوحده
     const syncLock = () => {
@@ -2080,6 +2094,21 @@ video.addEventListener("click", () => {
   /* ---------- لوب واحد لكل الحركات (أخف على الأداء) ---------- */
   let sy = window.scrollY;
   function frame(time){
+    if (SERVER_LAG.enabled) {
+      const introOn = root.classList.contains('intro-lock');
+      if (!introOn) {
+        if (time < freezeUntil) { requestAnimationFrame(frame); return; }          // الصفحة متجمّدة
+        if (root.classList.contains('hitching')) root.classList.remove('hitching');
+        if (time > nextHitch) {                                                    // تجمّدة جديدة
+          freezeUntil = time + rnd(SERVER_LAG.hitchFor);
+          root.classList.add('hitching');
+          nextHitch   = freezeUntil + rnd(SERVER_LAG.hitchEvery);
+          requestAnimationFrame(frame); return;
+        }
+        if (time - lastStep < 1000 / SERVER_LAG.fps) { requestAnimationFrame(frame); return; } // تقطيع
+        lastStep = time;
+      }
+    }
     if (lenis) lenis.raf(time);
 
     // parallax
