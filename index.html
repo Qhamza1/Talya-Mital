@@ -872,6 +872,38 @@
     .rs-score{ padding: 22px 34px; }
     .rs-score > span:first-child{ font-size:34px; }
   }
+
+  /* ============ HEAVY MOTION — Lenis + طبقات متأخرة (لاج) ============ */
+  html.lenis{ scroll-behavior:auto !important; }
+  html.lenis.lenis-stopped{ overflow:hidden; }
+  [data-lenis-prevent]{ overscroll-behavior:contain; }
+
+  /* ريفيل أبطأ وأتقل */
+  .reveal{ transform: translateY(48px); transition: opacity 1.3s var(--ease), transform 1.3s var(--ease); }
+  .reveal.in{ transform: translateY(0); }
+  .reveal-scale{ transform: scale(0.94); transition: opacity 1.4s var(--ease), transform 1.4s var(--ease); }
+  .reveal-scale.in{ transform: scale(1); }
+
+  /* بيرسبكتف للكروت عشان الـ tilt يبان 3D */
+  .solutions-grid, .gallery-grid{ perspective: 1400px; }
+
+  /* كيرسر بيجري ورا الماوس (على الأجهزة اللي فيها ماوس بس) */
+  .cursor-ring, .cursor-dot{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:100001;
+    opacity:0; will-change: transform; mix-blend-mode: difference;
+    transition: opacity .4s ease;
+  }
+  .cursor-ring{
+    width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%;
+    border:1.5px solid #fff;
+    transition: opacity .4s ease, scale .6s var(--ease), background-color .4s ease;
+  }
+  .cursor-dot{ width:7px; height:7px; margin:-3.5px 0 0 -3.5px; border-radius:50%; background:#fff; }
+  html.has-cursor .cursor-ring, html.has-cursor .cursor-dot{ opacity:1; }
+  .cursor-ring.is-hover{ scale: 1.8; background-color: rgba(255,255,255,0.14); }
+  .cursor-ring.is-down{ scale: 0.8; }
+  @media (hover:none), (pointer:coarse){ .cursor-ring, .cursor-dot{ display:none; } }
+
 </style>
 </head>
 <body>
@@ -1926,6 +1958,162 @@ video.addEventListener("click", () => {
     })();
 
     </script>
+
+    <!-- ============ HEAVY MOTION: Lenis smooth scroll + lag layers ============ -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function heavyMotion(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const root = document.documentElement;
+  const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ========= قوة اللاج: أقل رقم = لاج أقوى (0.03 تقيل جدًا، 0.1 خفيف) ========= */
+  const LAG = {
+    scroll:     0.045,  // السكرول نفسه (Lenis)
+    parallax:   0.05,   // الطبقات والزخارف
+    cursorRing: 0.045,  // الدايرة الكبيرة
+    cursorDot:  0.22,   // النقطة الصغيرة
+    tilt:       0.045   // ميلان الكروت
+  };
+  const TILT_MAX = 12;  // أقصى ميلان (بالدرجات × 0.5 تقريبًا)
+
+  /* ---------- 1) Smooth scroll بلاج (Lenis) ---------- */
+  let lenis = null;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ lerp: LAG.scroll, wheelMultiplier: 0.9 });
+
+    // السكرول يفضل مقفول طول الـ intro وبعدين يشتغل لوحده
+    const syncLock = () => {
+      const locked = root.classList.contains('intro-lock');
+      if (locked && !lenis.isStopped) lenis.stop();
+      else if (!locked && lenis.isStopped) lenis.start();
+    };
+    syncLock();
+    new MutationObserver(syncLock).observe(root, { attributes:true, attributeFilter:['class'] });
+
+    // روابط النافبار (#section) تنزل بنفس الإحساس التقيل
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (!id || id.length < 2) return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        const nav = document.querySelector('.navbar');
+        lenis.scrollTo(target, { offset: -(nav ? nav.offsetHeight : 0) });
+      });
+    });
+
+    // العناصر اللي ليها سكرول داخلي تفضل شغالة عادي
+    document.querySelectorAll('.reviews-list, textarea').forEach(el => el.setAttribute('data-lenis-prevent', ''));
+  }
+
+  /* ---------- 2) Parallax بلاج (طبقات بسرعات مختلفة) ---------- */
+  // بنستخدم خاصية translate (مش transform) عشان متتعارضش مع الريفيل والـ hover
+  const layers = [];
+  const addLayer = (el, speed) => { if (el && el.parentElement) layers.push({ el, speed, mid:0, half:0 }); };
+
+  // سرعة سالبة = الطبقة بتتأخر ورا السكرول (إحساس العمق والتقل)
+  const blobSpeeds = [-0.14, -0.08, -0.2];
+  document.querySelectorAll('.decor-blob').forEach((el, i) => addLayer(el, blobSpeeds[i % 3]));
+  document.querySelectorAll('.decor-hex').forEach(el => addLayer(el, -0.18));
+  document.querySelectorAll('.decor-dots').forEach(el => addLayer(el, -0.1));
+  addLayer(document.querySelector('.hero-visual'), -0.05);
+  addLayer(document.querySelector('.hero-copy'), -0.025);
+  document.querySelectorAll('.section-head').forEach(el => addLayer(el, -0.03));
+
+  let vh = window.innerHeight;
+  function measure(){
+    vh = window.innerHeight;
+    layers.forEach(L => {
+      const r = L.el.parentElement.getBoundingClientRect();
+      L.mid  = r.top + window.scrollY + r.height / 2;
+      L.half = r.height / 2;
+    });
+  }
+  measure();
+  window.addEventListener('load', measure);
+  window.addEventListener('resize', measure);
+  if ('ResizeObserver' in window) {
+    let t; new ResizeObserver(() => { clearTimeout(t); t = setTimeout(measure, 150); }).observe(document.body);
+  }
+
+  /* ---------- 3) Tilt للكروت بلاج ---------- */
+  const tilts = [];
+  if (finePointer) {
+    document.querySelectorAll('.sol-card, .gallery-item').forEach(el => {
+      const s = { el, rx:0, ry:0, tx:0, ty:0 };
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width  - 0.5;
+        const py = (e.clientY - r.top)  / r.height - 0.5;
+        s.tx = -py * TILT_MAX;
+        s.ty =  px * TILT_MAX;
+      });
+      el.addEventListener('pointerleave', () => { s.tx = 0; s.ty = 0; });
+      tilts.push(s);
+    });
+  }
+
+  /* ---------- 4) كيرسر بلاج ---------- */
+  let ring, dot, mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my, dx = mx, dy = my;
+  if (finePointer) {
+    ring = document.createElement('div'); ring.className = 'cursor-ring';
+    dot  = document.createElement('div'); dot.className  = 'cursor-dot';
+    document.body.append(ring, dot);
+
+    let seen = false;
+    window.addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { seen = true; rx = dx = mx; ry = dy = my; }
+      root.classList.add('has-cursor');
+      const hot = e.target.closest && e.target.closest('a, button, [role="button"], input, textarea, select, label, video, .gallery-item, .sol-card, .slider');
+      ring.classList.toggle('is-hover', !!hot);
+    }, { passive:true });
+    window.addEventListener('pointerdown', () => ring.classList.add('is-down'));
+    window.addEventListener('pointerup',   () => ring.classList.remove('is-down'));
+    root.addEventListener('mouseleave', () => root.classList.remove('has-cursor'));
+    root.addEventListener('mouseenter', () => root.classList.add('has-cursor'));
+  }
+
+  /* ---------- لوب واحد لكل الحركات (أخف على الأداء) ---------- */
+  let sy = window.scrollY;
+  function frame(time){
+    if (lenis) lenis.raf(time);
+
+    // parallax
+    sy += (window.scrollY - sy) * LAG.parallax;
+    const viewMid = sy + vh / 2;
+    for (const L of layers) {
+      const d = L.mid - viewMid;
+      if (Math.abs(d) > L.half + vh / 2 + 250) continue;      // بره الشاشة — متحسبش
+      const shift = Math.max(-140, Math.min(140, d * L.speed));
+      L.el.style.translate = '0 ' + shift.toFixed(2) + 'px';
+    }
+
+    // tilt
+    for (const s of tilts) {
+      s.rx += (s.tx - s.rx) * LAG.tilt;
+      s.ry += (s.ty - s.ry) * LAG.tilt;
+      const ang = Math.hypot(s.rx, s.ry);
+      s.el.style.rotate = ang < 0.01 ? 'none'
+        : (s.rx / ang).toFixed(4) + ' ' + (s.ry / ang).toFixed(4) + ' 0 ' + ang.toFixed(3) + 'deg';
+    }
+
+    // cursor
+    if (ring) {
+      rx += (mx - rx) * LAG.cursorRing;  ry += (my - ry) * LAG.cursorRing;
+      dx += (mx - dx) * LAG.cursorDot;   dy += (my - dy) * LAG.cursorDot;
+      ring.style.transform = 'translate3d(' + rx.toFixed(2) + 'px,' + ry.toFixed(2) + 'px,0)';
+      dot.style.transform  = 'translate3d(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px,0)';
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 
     <!-- ---------- REVIEWS & RATINGS (Firebase) ---------- -->
     <script type="module">
